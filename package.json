@@ -6,6 +6,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karanba/axios-bootcamp.git"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karanba/axios-bootcamp/issues"
+  },
+  "homepage": "https://github.com/karanba/axios-bootcamp/#readme",
+  "devDependencies": {
+    "git-scripts": "^0.4.3",
+    "surge": "^0.23.0"
+  },
+  "git": {
+    "scripts": {
+      "pre-push": "surge --project ./ --domain karanba-bootstrap5.surge.sh"
+    }
+  }
 }
