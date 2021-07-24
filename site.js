@@ -37,9 +37,13 @@ function renderTodos() {
 
 function addTodo() {
     axios.post('https://jsonplaceholder.typicode.com/todos', {
-        title: document.getElementById('todo-title').value,
-        completed: false
-    });
+            title: document.getElementById('todo-title').value,
+            completed: false
+        }).then(function (response) {
+            todoList.push(response.data);
+            renderTodos();
+        })
+        .catch(function (error) {});;
 }
 
 function updateTodo(id, isCompeleted) {
