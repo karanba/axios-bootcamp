@@ -4,7 +4,14 @@ function getTodos() {
     axios.get('https://jsonplaceholder.typicode.com/todos', {
         params: {
             _limit: 10
-        }
+        },
+        transformResponse: axios.defaults.transformResponse.concat(function (data) {
+            data.forEach(d => {
+                d.title = d.title.toUpperCase();
+            });
+
+            return data;
+        })
     }).then(function (response) {
         todoList = response.data;
         renderTodos()
@@ -43,7 +50,7 @@ function addTodo() {
             todoList.push(response.data);
             renderTodos();
         })
-        .catch(function (error) {});;
+        .catch(function (error) {});
 }
 
 function updateTodo(id, isCompeleted) {
@@ -72,6 +79,43 @@ function removeTodo(id) {
         .catch(function (error) {});
 }
 
+function getDatas() {
+    axios.all([
+            axios.get('https://jsonplaceholder.typicode.com/users?_limit=5'),
+            axios.get('https://jsonplaceholder.typicode.com/posts?_limit=5')
+        ])
+        .then(axios.spread(function (users, posts) {
+            console.log(users, posts);
+        }))
+        .catch(function (error) {});
+}
+
 document.getElementById('add-todo').addEventListener('click', addTodo);
 
+
+axios.interceptors.request.use(function (config) {
+    console.log('Requesting', config.url);
+    return config;
+}, function (error) {});
+
+
+function customHeaders() {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'sometoken'
+        }
+    };
+
+    axios.post('https://jsonplaceholder.typicode.com/todos', {
+            title: document.getElementById('todo-title').value,
+            completed: false
+        }, config).then(function (response) {
+            todoList.push(response.data);
+            renderTodos();
+        })
+        .catch(function (error) {});
+}
+
 getTodos();
+getDatas();
